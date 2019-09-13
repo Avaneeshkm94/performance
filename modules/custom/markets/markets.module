@@ -1,0 +1,27 @@
+<?php
+
+use Drupal\views\ViewExecutable;
+use Drupal\views\Plugin\views\query\QueryPluginBase;
+use Drupal\user\Entity\User;
+
+/**
+* Implements hook_views_query_alter().
+*/
+function markets_views_query_alter($view, $query) {
+ $view_id = ['usermarkets'];
+ $current_display = ['page_1'];
+ if (in_array($view->id(), $view_id) && in_array($view->current_display, $current_display)) {
+   // Load current user.
+   $user = User::load(\Drupal::currentUser()->id());
+   // Get current user markets.
+   $market = $user->get('field_markets')->getValue();
+   $market = array_column($market, 'target_id');
+   if (empty($market)) {
+     return;
+   }
+   // Add market table to the query.
+   $query->queueTable('node__field_markets_', "node_field_data", NULL, 'node__field_markets_');
+   // Add market condition based on the current user.
+   $query->addWhere('1', 'node__field_markets_.field_markets__target_id', $market, 'IN');
+ }
+}
