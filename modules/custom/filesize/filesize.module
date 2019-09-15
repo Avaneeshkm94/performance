@@ -1,0 +1,24 @@
+<?php
+/**
+* @file
+* Add a field to an existing form.
+*/
+use Drupal\Core\Form;
+use Drupal\user\Entity;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\field\Entity\FieldStorageConfig;
+
+/**
+* Implements hook_form_FORM_ID_alter().
+*/
+function filesize_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  print_r($form_state);
+
+ // Add a checkbox to registration form for terms.
+// kint($form_id);
+// if ($form_id == 'node_test_form' || $form_id == 'node_test_edit_form'){
+//  $form ['title']['widget'][0]['value']['#required']=FALSE;
+//
+//  }
+}
